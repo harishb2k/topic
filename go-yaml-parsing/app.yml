@@ -1,0 +1,22 @@
+server:
+  type: simple
+  applicationContextPath: "/"
+  adminContextPath: "/admin"
+  connector:
+    port: 8080
+    type: http
+
+distributedLockConfig:
+  lockConfigs:
+    default:
+      lockExpiryTimeInMs: 500
+      lockTryWaitTimeInMs: 500
+      ignoreLockError: true
+    softAllocate:
+      lockExpiryTimeInMs: 500
+      lockTryWaitTimeInMs: 500
+      ignoreLockError: true
+    orderCreate:
+      lockExpiryTimeInMs: 500
+      lockTryWaitTimeInMs: 500
+      ignoreLockError: true
