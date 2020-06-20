@@ -1,5 +1,5 @@
 "github.com/jarcoal/httpmock"
-
+"github.com/stretchr/testify/assert"
 
 
 httpmock.Activate()
@@ -41,4 +41,3 @@ assert.Equal(t, 200, code, "code must 200")
 info := httpmock.GetCallCountInfo()
 assert.Equal(t, 0, info["GET https://api.mybiz.com/articles"], "Id must be 1")
 
-	
