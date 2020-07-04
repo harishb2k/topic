@@ -1,0 +1,44 @@
+@startuml
+
+=== CNI Init of Kubernates ==
+Kube -> K8s_cni.go: Init()
+K8s_cni.go -> K8s_cni.go: syncNetworkConfig()
+K8s_cni.go -> K8s_cni.go: getDefaultCNINetwork()
+K8s_cni.go --> Kube: cniNetworkPlugin
+note over K8s_cni.go, K8s_cni.go
+This method reads files from /etc/cni/net.d/ dir
+    - this dir can be configured from cni-conf-dir in kubernetes
+
+This file contains the type. The type can be anything e.g. calico
+
+Note you will see the exe file with this plugin name at "cni-bin-dir=/opt/cni/bin"
+dir
+
+-> This means that CNI will call this exe /opt/cni/bin/calico as a CNI plugin
+end note
+
+=== New POD is added ==
+
+Kube -> K8s_cni.go: SetUpPod(pod id, pod name, container id etc)
+K8s_cni.go -> K8s_cni.go: addToNetwork
+K8s_cni.go -> K8s_cni.go: buildCNIRuntimeConf
+note over K8s_cni.go, K8s_cni.go
+This will fill all required in payload
+1. container id
+2. network namespace
+3. network device name e.g. eth0 (default)
+4. K8S_POD_NAMESPACE
+5. K8S_POD_NAME
+6. K8S_POD_INFRA_CONTAINER_ID
+
+4, 5, 6 are custom param sent to CNI from Kubernetes
+
+end note
+
+K8s_cni.go -> libcni: AddNetworkList()
+libcni -> libcni: ExecPluginWithResult(command=ADD, data from K8s_cni.go)
+
+libcni -> calico: execute calico exc with param Add and data
+calico -> calico: Setup network
+
+@enduml
