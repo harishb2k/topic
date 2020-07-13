@@ -48,4 +48,13 @@ y = linear_layer(training_input)
 # [2. 2.]   *     [2., 2., 2.]  + "B"     =            [6. 6. 6.]
 # [3. 3.]                                              [9. 9. 9.]
 
+# Each row in "W" contains xi coefficient for different Neurons
+# x0[0] = Neuron_1 1st coefficient
+# x0[1] = Neuron_2 1st coefficient
+# x0[2] = Neuron_3 1st coefficient
+#
+# It seems that each rows in W represents coefficient for only one neurone -> but this is not true. Each row contains
+# Nth coefficient
+
+
 print(y)
