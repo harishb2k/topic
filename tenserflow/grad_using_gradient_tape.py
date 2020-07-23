@@ -8,7 +8,7 @@ import tensorflow as tf
 # Δy/Δw = diag(b)
 # Δy/Δb = diag(w)
 
-# ------------------------------------- Scalar expansion ---------------------------------------------------------------
+# ------------------------------------- Start: Scalar expansion --------------------------------------------------------
 # Scalar expansion
 # Y = W + T
 #       where "W" is a vector and "T" is a scalar
@@ -34,6 +34,8 @@ print("\ndy_dw & dy_dt")
 print(dl_dw)
 print(dl_dt)
 print("\n\n End - Scalar expansion \n\n")
+# ------------------------------------- End: Scalar expansion --------------------------------------------------------
+
 
 # Given below is example Element-wise operations on vectors
 
