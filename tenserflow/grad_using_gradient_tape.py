@@ -1,9 +1,25 @@
 import tensorflow as tf
 
+# We can calculate differentiation of a matrix using "matrix calculus"
+# https://explained.ai/matrix-calculus/
+#
+# Matrix Calculus defines some rules to make operations easy e.g. vector W and vector B multiplication can be calculated
+# with pre-defined formula:
+# Δy/Δw = diag(b)
+# Δy/Δb = diag(w)
+
+# ------------------------------------- Scalar expansion ---------------------------------------------------------------
 # Scalar expansion
-# Y = x + z
-#       x is a vector
-#       z is a scalar
+# Y = W + T
+#       where "W" is a vector and "T" is a scalar
+#
+# Δy/Δw = Iw
+# Δy/Δt = w
+#
+# Sample: w = [ 1.8517164 , -0.19331335] and t=11.0
+# Δy/Δw = [11. 11.]
+# Δy/Δt = 1.658403  which is sum(w)
+
 w = tf.Variable(tf.random.normal((1, 2)), name='w')
 t = tf.Variable(11.0)
 print("\nW & T")
@@ -11,8 +27,6 @@ print(w)
 print(t)
 
 with tf.GradientTape(persistent=True) as tape:
-    # y with_respect_to_w = It  (expect a identity matrix of t)
-    # y with_respect_to_t = w   (expect a sum of w)
     y = w * t
 
 [dl_dw, dl_dt] = tape.gradient(y, [w, t])
