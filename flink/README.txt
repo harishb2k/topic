@@ -1,0 +1,3 @@
+Submit a flink Job: Make sure you hase 1.11.1 version of flink 
+FLINK_PATH=...
+sh $FLINK_PATH/bin/flink run $FLINK_PATH/examples/streaming/WordCount.jar
