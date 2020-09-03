@@ -5,7 +5,8 @@ kubectl create -f https://raw.githubusercontent.com/lyft/flinkk8soperator/v0.5.0
 kubectl create -f https://raw.githubusercontent.com/lyft/flinkk8soperator/v0.5.0/deploy/role.yaml
 kubectl create -f https://raw.githubusercontent.com/lyft/flinkk8soperator/v0.5.0/deploy/role-binding.yaml
 
-kubectl create -f https://raw.githubusercontent.com/lyft/flinkk8soperator/v0.5.0/deploy/config.yaml
+
+kubectl create -f https://raw.githubusercontent.com/harishb2k/topic/master/flink/flink_lyft/config.yaml
 
 kubectl create -f https://raw.githubusercontent.com/harishb2k/topic/master/flink/flink_lyft/flinkk8soperator.yaml
 kubectl get pods -n flink-operator
