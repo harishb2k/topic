@@ -1,0 +1,22 @@
+CMake:
+
+
+
+## use the hint from above to find where 'zmq.hpp' is located
+find_path(ZeroMQ_INCLUDE_DIR
+        NAMES zsock.h
+        PATHS ${PC_ZeroMQ_INCLUDE_DIRS}
+        )
+
+## use the hint from about to find the location of libzmq
+find_library(ZeroMQ_LIBRARY
+        NAMES czmq
+        PATHS ${PC_ZeroMQ_LIBRARY_DIRS}
+        )
+message(STATUS "Link ZeroMQ_INCLUDE_DIR=${ZeroMQ_INCLUDE_DIR}")
+message(STATUS "Link ZeroMQ_LIBRARY=${ZeroMQ_LIBRARY}")
+
+
+add_executable(helloworld main.cpp)
+target_include_directories(helloworld PUBLIC ${PC_ZeroMQ_INCLUDE_DIRS})
+target_link_libraries(helloworld LINK_PUBLIC  ${ZeroMQ_LIBRARY})
