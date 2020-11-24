@@ -30,3 +30,12 @@ person.SerializeToArray(buffer, person.ByteSizeLong());
 # Read object from buffer
 tutorial::Person person1;
 bool n1 = person1.ParseFromArray(data, size);
+
+
+OR
+std::string person_string;
+person.SerializeToString(&person_string);
+  Bytes  = person_string.c_str()
+  Length = person_string.length()
+
+  
