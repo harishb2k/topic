@@ -181,3 +181,23 @@ class OnlineOfflineStateModelFactoryNew extends StateModelFactory<StateModel> {
     }
 }
 ```
+
+## Miscellaneous
+#### Jvm hook to de-register when nodes goes down
+When node goes down then we can register jvm hook to de-register node. This will kick-in the re-balance asap.
+Otherwise it takes some time for helix to do re-balance
+```java
+Runtime.getRuntime().addShutdownHook(new Thread(() -> {    
+         controler.disconnect();
+         manager.disconnect();
+    }));
+``` 
+#### Timeouts 
+When a node is killed and JVM shudtown hook does not run, then it takes (default=1 min) for Helix to
+start re-balance
+You can configure it by yourself.
+```java
+// Set timeouts to 5 sec
+System.setProperty(SystemPropertyKeys.ZK_CONNECTION_TIMEOUT, 5000 + "");
+System.setProperty(SystemPropertyKeys.ZK_SESSION_TIMEOUT, 5000 + "");
+```
