@@ -1,4 +1,4 @@
-#Helix base setup
+##Helix base setup
 Helix setup need following setup
 1. Cluster set-up
 2. Resource setup
@@ -93,3 +93,91 @@ controler = HelixControllerMain.startHelixController(
         );
 ``` 
 
+##Handling state transaction 
+Helix does not know what it means to go from online to offline OR making master to slave. It using the StateModelFactory
+to do the actual work 
+```java
+
+// Step 1 - Set state handling in manager
+OnlineOfflineStateModelFactoryNew stateModelFactoryNew = new OnlineOfflineStateModelFactoryNew();
+stateMach.registerStateModelFactory(Application.STATE_MODEL_NAME, stateModelFactoryNew);
+
+// Step 2 - your application logic
+class OnlineOfflineStateModelFactoryNew extends StateModelFactory<StateModel> {
+    @Override
+    public StateModel createNewStateModel(String stateUnitKey) {
+        OnlineOfflineStateModel stateModel = new OnlineOfflineStateModel();
+        return stateModel;
+    }
+
+    @StateModelInfo(states = "{'MASTER','SLAVE'}", initialState = "OFFLINE")
+    public static class OnlineOfflineStateModel extends StateModel {
+        
+        @Transition(from = "SLAVE", to = "MASTER")
+        public void onBecomeOnlineFromOffline(Message message,NotificationContext context) {
+            System.out.println("SLAVE_MASTER");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // Application logic to handle transition  - When a partition goes to MASTER from SLAVE       //           
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        @Transition(from = "MASTER", to = "SLAVE")
+        public void MASTERSLAVE(Message message, NotificationContext context) {
+            System.out.println("MASTER_SLAVE");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // Application logic to handle transition  - When a partition goes to SLAVE from MASTER       //           
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        @Transition(from = "OFFLINE", to = "SLAVE")
+        public void OFFLINE_SLAVE(Message message, NotificationContext context) {
+            System.out.println("OFFLINE_SLAVE");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // Application logic to handle transition  - When a partition goes to SLAVE from OFFLINE      //           
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        @Transition(from = "SLAVE", to = "OFFLINE")
+        public void SLAVE_OFFLINE(Message message, NotificationContext context) {
+            System.out.println("SLAVE_OFFLINE");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // Application logic to handle transition  - When a partition goes to OFFLINE from SLAVE      //           
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        @Transition(from = "OFFLINE", to = "DROPPED")
+        public void OFFLINE_DROPPED(Message message, NotificationContext context) {
+            System.out.println("OFFLINE_DROPPED");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // Application logic to handle transition  - When a partition goes to DROPPED from OFFLINE    //           
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+    }
+}
+```
