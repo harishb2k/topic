@@ -93,7 +93,7 @@ controler = HelixControllerMain.startHelixController(
         );
 ``` 
 
-##Handling state transaction 
+## Handling state transaction 
 Helix does not know what it means to go from online to offline OR making master to slave. It using the StateModelFactory
 to do the actual work 
 ```java
