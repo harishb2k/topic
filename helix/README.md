@@ -1,11 +1,11 @@
-##Helix base setup
+## Helix base setup
 Helix setup need following setup
 1. Cluster set-up
 2. Resource setup
 3. Register yourself as participant
 4. Register yourself as controller
 
-####Cluster set-up
+#### Cluster set-up
 We need to have a cluster to work with Helix. Only problem we face is bootstrap (only one node need to create cluster)
  
 ```java
@@ -32,7 +32,7 @@ admin.addInstance(CLUSTER_NAME, instanceConfig);
 
 ```
 
-####Resource setup
+#### Resource setup
 A resource can be anything. It is divided in N partitions, and these partitions are then assigned to
 nodes. A resource and partitions is a virtual resource, there is nothing backing this resource.
 It is created for Helix to do the assignment.  
@@ -49,7 +49,7 @@ if (Strings.isNullOrEmpty(resource)) {
 }
 ```
 
-######Re-balance 
+###### Re-balance 
 You need to initiate re-balance for partition re-allocation. 
 When you boot the first node, it is going to fail because you will not have enough replica. To overcome
 this problem you may have to run a busy loop to ensure re-balance is called.
