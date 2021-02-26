@@ -1,8 +1,3 @@
-Helix need following things:
-1. Cluster
-2. Resource
-3. Controller
-
 #Helix base setup
 Helix setup need following setup
 1. Cluster set-up
